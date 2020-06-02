@@ -1,32 +1,34 @@
-import * as React from 'react';
-import { IAdaptiveCardProps } from './IAdaptiveCardProps';
+import * as React from "react";
+import { IAdaptiveCardProps } from "./IAdaptiveCardProps";
 
 import * as AdaptiveCards from "adaptivecards";
 import * as ACData from "adaptivecards-templating";
 import * as ACFabric from "adaptivecards-fabric";
 
 // Support for theme and section color
-import { IReadonlyTheme } from '@microsoft/sp-component-base';
-import { IValidationError } from './IValidationError';
-import { IAdaptiveCardActionResult } from './IAdaptiveCardActionResult';
+import { IReadonlyTheme } from "@microsoft/sp-component-base";
+import { IValidationError } from "./IValidationError";
+import { IAdaptiveCardActionResult } from "./IAdaptiveCardActionResult";
 
 // Support for markdown
 import * as markdownit from "markdown-it";
 
+import { IAdaptiveCardState } from ".";
 
-import { IAdaptiveCardState } from '.';
-
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType } from "office-ui-fabric-react";
 
 // Localization
-import * as strings from 'AdaptiveCardHostWebPartStrings';
+import * as strings from "AdaptiveCardHostWebPartStrings";
 
 /**
  * Displays an Adaptive Card
  * Supports templating and markdown syntax
  * Also adapts to changing environment colors
  */
-export class AdaptiveCard extends React.Component<IAdaptiveCardProps, IAdaptiveCardState> {
+export class AdaptiveCard extends React.Component<
+  IAdaptiveCardProps,
+  IAdaptiveCardState
+> {
   // The rendering container
   private _acContainer: HTMLDivElement;
 
@@ -34,14 +36,17 @@ export class AdaptiveCard extends React.Component<IAdaptiveCardProps, IAdaptiveC
     super(props);
 
     this.state = {
-      errors: []
+      errors: [],
     };
   }
   public componentDidMount(): void {
     this._renderAdaptiveCard();
   }
 
-  public componentDidUpdate(_prevProps: IAdaptiveCardProps, _prevState: {}): void {
+  public componentDidUpdate(
+    _prevProps: IAdaptiveCardProps,
+    _prevState: {}
+  ): void {
     if (_prevProps != this.props) {
       // Pretty much any changes will result in a redraw.
       this._renderAdaptiveCard();
@@ -49,17 +54,25 @@ export class AdaptiveCard extends React.Component<IAdaptiveCardProps, IAdaptiveC
   }
 
   public render(): React.ReactElement<IAdaptiveCardProps> {
-    return <>
-      {this.state.errors.length > 0 &&
-        <MessageBar messageBarType={MessageBarType.error} isMultiline={true}>
-          {strings.AdaptiveCardErrorIntro}<br />
-          {this.state.errors.map((error: string) => {
-            return <p>{error}</p>;
-          })}
-        </MessageBar>
-      }
-      <div className={this.props.className} ref={(elm) => { this._acContainer = elm; }}></div>
-    </>;
+    return (
+      <>
+        {this.state.errors.length > 0 && (
+          <MessageBar messageBarType={MessageBarType.error} isMultiline={true}>
+            {strings.AdaptiveCardErrorIntro}
+            <br />
+            {this.state.errors.map((error: string) => {
+              return <p>{error}</p>;
+            })}
+          </MessageBar>
+        )}
+        <div
+          className={this.props.className}
+          ref={(elm) => {
+            this._acContainer = elm;
+          }}
+        ></div>
+      </>
+    );
   }
 
   private _renderAdaptiveCard() {
@@ -127,7 +140,7 @@ export class AdaptiveCard extends React.Component<IAdaptiveCardProps, IAdaptiveC
     this.setState({
       errors: errors.map((error: IValidationError) => {
         return error.message;
-      })
+      }),
     });
 
     // Empty the div so we can replace it
@@ -148,7 +161,7 @@ export class AdaptiveCard extends React.Component<IAdaptiveCardProps, IAdaptiveC
     // Maybe it means to open in a new window or something, but I can't find any reference to that in the specs.
     if (url) {
       // Only strip if the whole URL is wrapped with parentheses.
-      if (url.charAt(0) === '(' && url.charAt(url.length - 1) === ')') {
+      if (url.charAt(0) === "(" && url.charAt(url.length - 1) === ")") {
         url = url.substr(1);
         url = url.substr(0, url.length - 1);
       }
@@ -158,7 +171,7 @@ export class AdaptiveCard extends React.Component<IAdaptiveCardProps, IAdaptiveC
       type: actionType,
       title: action.title,
       url: url,
-      data: action.data
+      data: action.data,
     };
 
     this.props.onExecuteAction(actionResult);
@@ -170,10 +183,9 @@ export class AdaptiveCard extends React.Component<IAdaptiveCardProps, IAdaptiveC
       result.outputHtml = new markdownit().render(md);
       result.didProcess = true;
     } catch (error) {
-      console.error('Error parsing Markdown', error);
+      console.error("Error parsing Markdown", error);
       result.didProcess = false;
     }
-
   }
 
   /**
@@ -191,40 +203,40 @@ export class AdaptiveCard extends React.Component<IAdaptiveCardProps, IAdaptiveC
 
       // I mapped as many theme colors as I could. Feel free to adjust the colours
       adaptiveCard.hostConfig = new AdaptiveCards.HostConfig({
-        "separator": {
-          "lineThickness": 1,
-          "lineColor": semanticColors.bodyFrameDivider
+        separator: {
+          lineThickness: 1,
+          lineColor: semanticColors.bodyFrameDivider,
         },
-        "containerStyles": {
-          "default": {
-            "backgroundColor": semanticColors.bodyBackground,
-            "foregroundColors": {
-              "default": {
-                "default": semanticColors.bodyText,
-                "subtle": semanticColors.bodyTextChecked
+        containerStyles: {
+          default: {
+            backgroundColor: semanticColors.bodyBackground,
+            foregroundColors: {
+              default: {
+                default: semanticColors.bodyText,
+                subtle: semanticColors.bodyTextChecked,
               },
-              "attention": {
-                "default": semanticColors.errorText
+              attention: {
+                default: semanticColors.errorText,
               },
-              "good": {
-                "default": semanticColors['successText'] // for some reason, successText doesn't show up
+              good: {
+                default: semanticColors["successText"], // for some reason, successText doesn't show up
               },
-              "warning": {
-                "default": semanticColors.warningText
+              warning: {
+                default: semanticColors.warningText,
               },
-              "accent": {
-                "default": semanticColors.accentButtonBackground
-              }
-            }
-          }
-        }
+              accent: {
+                default: semanticColors.accentButtonBackground,
+              },
+            },
+          },
+        },
       });
     }
   }
 
   private _errorHandler(error: string) {
     this.setState({
-      errors: [error]
+      errors: [error],
     });
   }
 }

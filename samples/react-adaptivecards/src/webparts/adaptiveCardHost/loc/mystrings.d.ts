@@ -35,6 +35,7 @@ declare interface IAdaptiveCardHostWebPartStrings {
   AdaptiveCardTemplatingInfoLabel: string;
   DataJSONFieldLabel: string;
   UseAdaptiveTemplatingLabel: string;
+  UseArrayCyclingLabel: string;
   PropertyPaneDescription: string;
   TemplatingGroupName: string;
   TemplateFieldLabel: string;
