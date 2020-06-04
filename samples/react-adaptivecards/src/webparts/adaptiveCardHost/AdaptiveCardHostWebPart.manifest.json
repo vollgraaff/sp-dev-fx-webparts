@@ -22,9 +22,7 @@
         "template": "",
         "data": "",
         "dynamicTemplate": {},
-        "useTemplating": false,
-        // "useArrayCycling": false,
-        "useCollectionCycling": false
+        "useTemplating": false
       }
     }
   ]

@@ -11,6 +11,7 @@ define([], function () {
     DataNeededDescription:
       "When you use Adaptive Card Templating, you need to provide either static JSON data, or from a SharePoint list.",
     DataNeededIconText: "You need data!",
+    ListSiteLabel: "Site URL if list is site specific",
     ListFieldLabel: "Select a list",
     DataUrlLabel: "Data source URL",
     TemplateSourceFieldLabel: "Template source",

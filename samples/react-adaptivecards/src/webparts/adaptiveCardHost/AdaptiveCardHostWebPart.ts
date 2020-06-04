@@ -55,6 +55,7 @@ import * as strings from "AdaptiveCardHostWebPartStrings";
 // Used to render adaptive cards
 import AdaptiveCardHost from "./components/AdaptiveCardHost";
 import { IAdaptiveCardHostProps } from "./components/IAdaptiveCardHostProps";
+import { ReactInputElement } from "adaptivecards-fabric";
 
 export type TemplateSourceType = "json" | "url";
 export type DataSourceType = "list" | "json" | "url";
@@ -96,6 +97,11 @@ export interface IAdaptiveCardHostWebPartProps {
   dataSource: DataSourceType;
 
   /**
+   * The site name of the selected list
+   */
+  absoluteUrlForCustomSiteName?: string | undefined;
+
+  /**
    * The list id of the selected list
    */
   list: string | undefined;
@@ -118,7 +124,6 @@ export default class AdaptiveCardHostWebPart extends BaseClientSideWebPart<
   private _themeVariant: IReadonlyTheme | undefined;
   private _templatePropertyPaneHelper: any;
   private _dataPropertyPaneHelper: any;
-  private _dataJSONCollection: string;
   private _dataJSON: string;
   private _viewSchema: string;
   private _templateJSON: string;
@@ -141,6 +146,9 @@ export default class AdaptiveCardHostWebPart extends BaseClientSideWebPart<
     await super.onInit();
 
     sp.setup({
+      pageContext: {
+        web: { absoluteUrl: this.properties.absoluteUrlForCustomSiteName },
+      },
       spfxContext: this.context,
     });
 
@@ -302,10 +310,6 @@ export default class AdaptiveCardHostWebPart extends BaseClientSideWebPart<
                   label: strings.UseAdaptiveTemplatingLabel,
                   checked: this.properties.useTemplating === true,
                 }),
-                PropertyPaneToggle("useArrayCycling", {
-                  label: strings.UseArrayCyclingLabel,
-                  checked: this.properties.useArrayCycling === true,
-                }),
 
                 this.properties.useTemplating === true &&
                   PropertyPaneChoiceGroup("dataSource", {
@@ -341,6 +345,14 @@ export default class AdaptiveCardHostWebPart extends BaseClientSideWebPart<
                     key: "dataInfoId",
                   }),
                 isDataListBound &&
+                  PropertyPaneTextField("absoluteUrlForCustomSiteName", {
+                    label: strings.ListSiteLabel,
+                    description:
+                      "eg: https://contoso.sharepoint.com/myhiddensite",
+                    onGetErrorMessage: null,
+                    validateOnFocusOut: true,
+                  }),
+                isDataListBound &&
                   PropertyFieldListPicker("list", {
                     label: strings.ListFieldLabel,
                     selectedList: this.properties.list,
@@ -355,6 +367,8 @@ export default class AdaptiveCardHostWebPart extends BaseClientSideWebPart<
                     onGetErrorMessage: null,
                     deferredValidationTime: 0,
                     key: "listPickerFieldId",
+                    webAbsoluteUrl: this.properties
+                      .absoluteUrlForCustomSiteName,
                   }),
                 isDataListBound &&
                   PropertyFieldViewPicker("view", {
@@ -371,11 +385,17 @@ export default class AdaptiveCardHostWebPart extends BaseClientSideWebPart<
                     onGetErrorMessage: null,
                     deferredValidationTime: 0,
                     key: "viewPickerFieldId",
+                    webAbsoluteUrl: this.properties
+                      .absoluteUrlForCustomSiteName,
                   }),
                 isDataUrlBound &&
                   PropertyPaneTextField("dataUrl", {
                     label: strings.DataUrlLabel,
                   }),
+                PropertyPaneToggle("useArrayCycling", {
+                  label: strings.UseArrayCyclingLabel,
+                  checked: this.properties.useArrayCycling === true,
+                }),
               ],
             },
           ],
@@ -446,6 +466,14 @@ export default class AdaptiveCardHostWebPart extends BaseClientSideWebPart<
     ) {
       return;
     }
+
+    debugger;
+    // sp.setup({
+    //   pageContext: {
+    //     web: { absoluteUrl: this.properties.absoluteUrlForCustomSiteName },
+    //   },
+    //   spfxContext: this.context,
+    // });
 
     // Get the list
     const list = await sp.web.lists.getById(this.properties.list);

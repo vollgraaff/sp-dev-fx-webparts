@@ -1,20 +1,24 @@
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
+import * as React from "react";
+import * as ReactDom from "react-dom";
 import {
   IPropertyPaneField,
   PropertyPaneFieldType,
-  IWebPartContext
-} from '@microsoft/sp-webpart-base';
-import PropertyFieldViewPickerHost from './PropertyFieldViewPickerHost';
-import { IPropertyFieldViewPickerHostProps } from './IPropertyFieldViewPickerHost';
-import { PropertyFieldViewPickerOrderBy, IPropertyFieldViewPickerProps, IPropertyFieldViewPickerPropsInternal } from './IPropertyFieldViewPicker';
-import { ISPView } from '.';
+  IWebPartContext,
+} from "@microsoft/sp-webpart-base";
+import PropertyFieldViewPickerHost from "./PropertyFieldViewPickerHost";
+import { IPropertyFieldViewPickerHostProps } from "./IPropertyFieldViewPickerHost";
+import {
+  PropertyFieldViewPickerOrderBy,
+  IPropertyFieldViewPickerProps,
+  IPropertyFieldViewPickerPropsInternal,
+} from "./IPropertyFieldViewPicker";
+import { ISPView } from ".";
 
 /**
  * Represents a PropertyFieldViewPicker object
  */
-class PropertyFieldViewPickerBuilder implements IPropertyPaneField<IPropertyFieldViewPickerPropsInternal> {
-
+class PropertyFieldViewPickerBuilder
+  implements IPropertyPaneField<IPropertyFieldViewPickerPropsInternal> {
   //Properties defined by IPropertyPaneField
   public properties: IPropertyFieldViewPickerPropsInternal;
   public targetProperty: string;
@@ -34,16 +38,26 @@ class PropertyFieldViewPickerBuilder implements IPropertyPaneField<IPropertyFiel
   private disableReactivePropertyChanges: boolean = false;
   private filter: string;
   private key: string;
+  // private absoluteUrl?: string;
   private webAbsoluteUrl?: string;
   private onGetErrorMessage: (value: string) => string | Promise<string>;
-  private onViewsRetrieved?: (views: ISPView[]) => PromiseLike<ISPView[]> | ISPView[];
-  public onPropertyChange(propertyPath: string, oldValue: any, newValue: any): void { }
+  private onViewsRetrieved?: (
+    views: ISPView[]
+  ) => PromiseLike<ISPView[]> | ISPView[];
+  public onPropertyChange(
+    propertyPath: string,
+    oldValue: any,
+    newValue: any
+  ): void {}
   private renderWebPart: () => void;
 
   /**
    * Constructor method
    */
-  public constructor(_targetProperty: string, _properties: IPropertyFieldViewPickerPropsInternal) {
+  public constructor(
+    _targetProperty: string,
+    _properties: IPropertyFieldViewPickerPropsInternal
+  ) {
     this.render = this.render.bind(this);
     this.targetProperty = _targetProperty;
     this.properties = _properties;
@@ -74,7 +88,11 @@ class PropertyFieldViewPickerBuilder implements IPropertyPaneField<IPropertyFiel
   /**
    * Renders the SPViewPicker field content
    */
-  private render(elem: HTMLElement, ctx?: any, changeCallback?: (targetProperty?: string, newValue?: any) => void): void {
+  private render(
+    elem: HTMLElement,
+    ctx?: any,
+    changeCallback?: (targetProperty?: string, newValue?: any) => void
+  ): void {
     const componentProps = {
       label: this.label,
       targetProperty: this.targetProperty,
@@ -93,23 +111,23 @@ class PropertyFieldViewPickerBuilder implements IPropertyPaneField<IPropertyFiel
       deferredValidationTime: this.deferredValidationTime,
       viewsToExclude: this.viewsToExclude,
       filter: this.filter,
-      onViewsRetrieved: this.onViewsRetrieved
+      onViewsRetrieved: this.onViewsRetrieved,
     };
 
-      // Single selector
-      componentProps['selectedView'] = this.selectedView;
-      const element: React.ReactElement<IPropertyFieldViewPickerHostProps> = React.createElement(PropertyFieldViewPickerHost, componentProps);
-      // Calls the REACT content generator
-      ReactDom.render(element, elem);
+    // Single selector
+    componentProps["selectedView"] = this.selectedView;
+    const element: React.ReactElement<IPropertyFieldViewPickerHostProps> = React.createElement(
+      PropertyFieldViewPickerHost,
+      componentProps
+    );
+    // Calls the REACT content generator
+    ReactDom.render(element, elem);
   }
 
   /**
    * Disposes the current object
    */
-  private dispose(_elem: HTMLElement): void {
-
-  }
-
+  private dispose(_elem: HTMLElement): void {}
 }
 
 /**
@@ -117,14 +135,21 @@ class PropertyFieldViewPickerBuilder implements IPropertyPaneField<IPropertyFiel
  * @param targetProperty - Target property the SharePoint view picker is associated to.
  * @param properties - Strongly typed SPView Picker properties.
  */
-export function PropertyFieldViewPicker(targetProperty: string, properties: IPropertyFieldViewPickerProps): IPropertyPaneField<IPropertyFieldViewPickerPropsInternal> {
+export function PropertyFieldViewPicker(
+  targetProperty: string,
+  properties: IPropertyFieldViewPickerProps
+): IPropertyPaneField<IPropertyFieldViewPickerPropsInternal> {
   //Create an internal properties object from the given properties
   const newProperties: IPropertyFieldViewPickerPropsInternal = {
     label: properties.label,
     targetProperty: targetProperty,
     context: properties.context,
     listId: properties.listId,
-    selectedView: typeof properties.selectedView === 'string' ? properties.selectedView : null,
+    // absoluteUrlForCustomSite: properties.absoluteUrlForCustomSite,
+    selectedView:
+      typeof properties.selectedView === "string"
+        ? properties.selectedView
+        : null,
     onPropertyChange: properties.onPropertyChange,
     properties: properties.properties,
     onDispose: null,
@@ -135,7 +160,7 @@ export function PropertyFieldViewPicker(targetProperty: string, properties: IPro
     filter: properties.filter,
     onGetErrorMessage: properties.onGetErrorMessage,
     deferredValidationTime: properties.deferredValidationTime,
-    onViewsRetrieved: properties.onViewsRetrieved
+    onViewsRetrieved: properties.onViewsRetrieved,
   };
   //Calls the PropertyFieldViewPicker builder object
   //This object will simulate a PropertyFieldCustom to manage his rendering process

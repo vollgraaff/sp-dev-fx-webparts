@@ -93,7 +93,7 @@ export class AdaptiveCard extends React.Component<
         this._errorHandler(strings.TemplatingJsonError + error);
         return;
       }
-
+      
       // Create a Template instance from the template payload
       var template = new ACData.Template(templatePayload);
 
@@ -175,7 +175,7 @@ export class AdaptiveCard extends React.Component<
     };
 
     this.props.onExecuteAction(actionResult);
-  }
+  };
 
   private _processMarkdownHandler = (md: string, result: any) => {
     // Don't stop parsing if there is invalid Markdown -- there's a lot of that in sample Adaptive Cards templates
@@ -186,7 +186,7 @@ export class AdaptiveCard extends React.Component<
       console.error("Error parsing Markdown", error);
       result.didProcess = false;
     }
-  }
+  };
 
   /**
    * Adjust Adaptive Card colors based on theme colors

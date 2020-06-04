@@ -6,6 +6,7 @@ declare interface IAdaptiveCardHostWebPartStrings {
   DataNeededButtonLabel: string;
   DataNeededDescription: string;
   DataNeededIconText: string;
+  ListSiteLabel: string;
   ListFieldLabel: string;
   DataUrlLabel: string;
   TemplateSourceFieldLabel: string;
@@ -42,7 +43,7 @@ declare interface IAdaptiveCardHostWebPartStrings {
   AdaptiveCardTemplating: string;
 }
 
-declare module 'AdaptiveCardHostWebPartStrings' {
+declare module "AdaptiveCardHostWebPartStrings" {
   const strings: IAdaptiveCardHostWebPartStrings;
   export = strings;
 }

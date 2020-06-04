@@ -7,7 +7,6 @@ export interface IAdaptiveCardProps {
   data: string;
   useTemplating: boolean;
   useArrayCycling: boolean;
-  // currentIndex: number;
   className?: string;
   onExecuteAction?: (action: IAdaptiveCardActionResult) => void;
   onParseSuccess?: () => void;

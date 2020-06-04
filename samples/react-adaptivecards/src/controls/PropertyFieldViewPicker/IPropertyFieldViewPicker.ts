@@ -1,13 +1,15 @@
-import { IWebPartContext, IPropertyPaneCustomFieldProps } from '@microsoft/sp-webpart-base';
-import { ISPView } from './ISPView';
-
+import {
+  IWebPartContext,
+  IPropertyPaneCustomFieldProps,
+} from "@microsoft/sp-webpart-base";
+import { ISPView } from "./ISPView";
 
 /**
  * Enum for specifying how the views should be sorted
  */
 export enum PropertyFieldViewPickerOrderBy {
   Id = 1,
-  Title
+  Title,
 }
 
 /**
@@ -75,6 +77,11 @@ export interface IPropertyFieldViewPickerProps {
   webAbsoluteUrl?: string;
 
   /**
+   * Absolute additional site
+   */
+  absoluteUrlForCustomSite?: string;
+
+  /**
    * The method is used to get the validation error message and determine whether the input value is valid or not.
    *
    *   When it returns string:
@@ -95,8 +102,8 @@ export interface IPropertyFieldViewPickerProps {
    */
   onPropertyChange(propertyPath: string, oldValue: any, newValue: any): void;
   /**
-    * Callback that is called before the dropdown is populated
-    */
+   * Callback that is called before the dropdown is populated
+   */
   onViewsRetrieved?: (views: ISPView[]) => PromiseLike<ISPView[]> | ISPView[];
 }
 
@@ -106,7 +113,9 @@ export interface IPropertyFieldViewPickerProps {
  * by the PropertyFieldCustom, without asking to the developer to add it when he's using
  * the PropertyFieldViewPicker.
  */
-export interface IPropertyFieldViewPickerPropsInternal extends IPropertyFieldViewPickerProps, IPropertyPaneCustomFieldProps {
+export interface IPropertyFieldViewPickerPropsInternal
+  extends IPropertyFieldViewPickerProps,
+    IPropertyPaneCustomFieldProps {
   context: IWebPartContext;
   deferredValidationTime?: number;
   disabled?: boolean;
@@ -119,6 +128,7 @@ export interface IPropertyFieldViewPickerPropsInternal extends IPropertyFieldVie
   selectedView?: string;
   targetProperty: string;
   viewsToExclude?: string[];
+  absoluteUrlForCustomSite?: string;
   webAbsoluteUrl?: string;
   onGetErrorMessage?: (value: string | string[]) => string | Promise<string>;
   onPropertyChange(propertyPath: string, oldValue: any, newValue: any): void;
