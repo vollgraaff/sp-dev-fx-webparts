@@ -184,6 +184,7 @@ export default class AdaptiveCardHostWebPart extends BaseClientSideWebPart<
         useArrayCycling: this.properties.useArrayCycling === true,
         context: this.context,
         displayMode: this.displayMode,
+        // WebpartElement:this.domElement
       }
     );
 
@@ -466,14 +467,6 @@ export default class AdaptiveCardHostWebPart extends BaseClientSideWebPart<
     ) {
       return;
     }
-
-    debugger;
-    // sp.setup({
-    //   pageContext: {
-    //     web: { absoluteUrl: this.properties.absoluteUrlForCustomSiteName },
-    //   },
-    //   spfxContext: this.context,
-    // });
 
     // Get the list
     const list = await sp.web.lists.getById(this.properties.list);

@@ -93,7 +93,7 @@ export class AdaptiveCard extends React.Component<
         this._errorHandler(strings.TemplatingJsonError + error);
         return;
       }
-      
+
       // Create a Template instance from the template payload
       var template = new ACData.Template(templatePayload);
 

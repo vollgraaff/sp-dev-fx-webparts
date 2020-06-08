@@ -39,7 +39,6 @@ export class SPViewPickerService implements ISPViewPickerService {
       if (this.props.listId === undefined || this.props.listId === "") {
         return this.getEmptyViews();
       }
-      debugger;
       const webAbsoluteUrl = !this.props.properties[
         "absoluteUrlForCustomSiteName"
       ]

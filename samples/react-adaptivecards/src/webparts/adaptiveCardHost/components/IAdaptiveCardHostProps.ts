@@ -1,5 +1,5 @@
 import { DisplayMode } from "@microsoft/sp-core-library";
-import { WebPartContext } from "@microsoft/sp-webpart-base";
+import { WebPartContext, BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 import { IReadonlyTheme } from "@microsoft/sp-component-base";
 
 export interface IAdaptiveCardHostProps {
@@ -10,9 +10,11 @@ export interface IAdaptiveCardHostProps {
   useArrayCycling: boolean;
   displayMode: DisplayMode;
   context: WebPartContext;
+  // WebpartElement: BaseClientSideWebPart<IAdaptiveCardHostProps>;
 }
 
 export interface IAdaptiveCardHostState {
   currentIndex: number;
   dataLength: number;
+  // WindowSize: number;
 }

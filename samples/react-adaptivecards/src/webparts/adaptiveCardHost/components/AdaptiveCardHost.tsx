@@ -32,6 +32,7 @@ import {
 
 // Localization
 import * as strings from "AdaptiveCardHostWebPartStrings";
+import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 
 export default class AdaptiveCardHost extends React.Component<
   IAdaptiveCardHostProps,
@@ -40,13 +41,10 @@ export default class AdaptiveCardHost extends React.Component<
 > {
   constructor(props: IAdaptiveCardHostProps, state: IAdaptiveCardHostState) {
     super(props);
-    // sp.setup({
-    //   spfxContext: this.props.context,
-    // });
-    debugger;
     this.state = {
       dataLength: this.props.data ? JSON.parse(this.props.data).length - 1 : 0,
       currentIndex: 0,
+      // WindowSize:this.props.WebpartElement.getBoundingClientRect().width
     };
   }
 
@@ -148,7 +146,6 @@ export default class AdaptiveCardHost extends React.Component<
                   />
                 }
                 onMoveNextClicked={(index: number) => {
-                  debugger;
                   let _currentIndex = this.state.currentIndex + 1;
                   if (_currentIndex > this.state.dataLength) _currentIndex = 0;
 
@@ -156,7 +153,6 @@ export default class AdaptiveCardHost extends React.Component<
                   console.log(`Next : ${_currentIndex} -> ${index}`);
                 }}
                 onMovePrevClicked={(index: number) => {
-                  debugger;
                   let _currentIndex = this.state.currentIndex - 1;
                   if (isNaN(_currentIndex) || _currentIndex < 0)
                     _currentIndex = this.state.dataLength;
