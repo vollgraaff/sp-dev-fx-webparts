@@ -159,10 +159,13 @@ export default class AdaptiveCardHostWebPart extends BaseClientSideWebPart<
 
   public async render(): Promise<void> {
     const { template } = this.properties;
+
+    // Remove additional '$' escape prior to term inserted by adaptivecards.io designer ${$term} becomes {$term}
+    debugger;
     const templateJson: string =
       this.properties.templateSource === "url" && this.properties.templateUrl
-        ? this._templateJSON
-        : this.properties.template;
+        ? this._templateJSON.replace(/\$\{/gi, "{")
+        : this.properties.template.replace(/\$\{/gi, "{");
 
     const dataJson: string =
       (this.properties.dataSource === "list" &&
@@ -294,7 +297,7 @@ export default class AdaptiveCardHostWebPart extends BaseClientSideWebPart<
                 isTemplateJSONBound && this._templatePropertyPaneHelper,
                 isTemplateUrlBound &&
                   PropertyPaneTextField("templateUrl", {
-                    label: strings.DataUrlLabel,
+                    label: strings.TemplateUrlLabel,
                   }),
               ],
             },

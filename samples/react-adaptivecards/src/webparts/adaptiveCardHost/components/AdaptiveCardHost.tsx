@@ -150,7 +150,6 @@ export default class AdaptiveCardHost extends React.Component<
                   if (_currentIndex > this.state.dataLength) _currentIndex = 0;
 
                   this.setState({ currentIndex: _currentIndex });
-                  console.log(`Next : ${_currentIndex} -> ${index}`);
                 }}
                 onMovePrevClicked={(index: number) => {
                   let _currentIndex = this.state.currentIndex - 1;
@@ -158,7 +157,6 @@ export default class AdaptiveCardHost extends React.Component<
                     _currentIndex = this.state.dataLength;
 
                   this.setState({ currentIndex: _currentIndex });
-                  console.log(`Prev : ${_currentIndex} -> ${index}`);
                 }}
               />
             )}
